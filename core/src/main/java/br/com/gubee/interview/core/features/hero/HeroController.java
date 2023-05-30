@@ -32,10 +32,12 @@ public class HeroController {
 
     @PatchMapping(value = "/{id}", consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> update(@PathVariable UUID id, @Validated @RequestBody CreateHeroRequest createHeroRequest){
-        Object hero = heroService.findById(id);
-        if(Objects.isNull(hero)){
+        List<Hero> hero = heroService.findById(id);
+        if(hero.isEmpty()){
+            System.out.println("Hero not found");
             return notFound().build();
         }else{
+            System.out.println("Hero updated");
             heroService.update(createHeroRequest, id);
             return ok().build();
         }
@@ -43,36 +45,38 @@ public class HeroController {
 
     @DeleteMapping(value = "/{id}", consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> delete(@Validated @PathVariable UUID id){
-        Object hero = heroService.findById(id);
-        if(Objects.isNull(hero)){
+        List<Hero> hero = heroService.findById(id);
+        if(hero.isEmpty()){
             return notFound().build();
         } else{
+            System.out.println("Hero successfully deleted");
             heroService.delete(id);
-            return ok().body(hero);
+            return ok().build();
         }
     }
 
     @GetMapping(value = "/{id}", consumes = APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> findById(@PathVariable UUID id){
-        Object hero = heroService.findById(id);
-        if(Objects.isNull(hero)){
+    public ResponseEntity<List<Hero>> findById(@PathVariable UUID id){
+        List<Hero> hero = heroService.findById(id);
+        if(hero.isEmpty()){
             System.out.println("Hero not found");
             return notFound().build();
         } else {
+            System.out.println("Hero was found");
             return ok().body(hero);
         }
     }
 
     @GetMapping(value = "/nome/{name}", consumes = APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> findByName(@PathVariable String name){
-        Object hero = heroService.findByName(name);
-        if(Objects.isNull(hero)){
+    public ResponseEntity<List<Hero>> findByName(@PathVariable String name){
+        List<Hero> hero = heroService.findByName(name);
+        if(hero.isEmpty()){
+            System.out.println("Hero not found");
             return ok().build();
         } else{
             return ok().body(hero);
         }
     }
-
 
 
 

@@ -55,11 +55,11 @@ public class HeroService {
         return heroRepository.delete(id);
     }
 
-    public Object findById(UUID id){
+    public List<Hero> findById(UUID id){
         return heroRepository.findById(id);
     }
 
-    public Object findByName(String name) {
+    public List<Hero> findByName(String name) {
         return heroRepository.findByName(name);
     }
 

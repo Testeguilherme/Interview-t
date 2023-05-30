@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -60,23 +61,18 @@ public class HeroRepository {
 
     private static final String FINDBYID_HERO_QUERY = "SELECT * FROM hero WHERE id=:t";
 
-    public Object findById(UUID id) {
-        try {
+    public List<Hero> findById(UUID id) {
             return namedParameterJdbcTemplate.query(
                     FINDBYID_HERO_QUERY,
                     Map.of("t", id),
                     new BeanPropertyRowMapper(Hero.class));
-        } catch (EmptyResultDataAccessException e){
-            return null;
-        }
-
     }
 
 
 
     private static final String FINDBYNAME_HERO_QUERY = "SELECT * FROM hero WHERE name=:t";
 
-    public Object findByName(String name) {
+    public List<Hero> findByName(String name) {
         return namedParameterJdbcTemplate.query(
                 FINDBYNAME_HERO_QUERY,
                 Map.of("t", name),
