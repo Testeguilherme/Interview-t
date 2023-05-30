@@ -56,6 +56,7 @@ public class HeroController {
     public ResponseEntity<Object> findById(@PathVariable UUID id){
         Object hero = heroService.findById(id);
         if(Objects.isNull(hero)){
+            System.out.println("Hero not found");
             return notFound().build();
         } else {
             return ok().body(hero);
@@ -71,7 +72,6 @@ public class HeroController {
             return ok().body(hero);
         }
     }
-
 
 
 

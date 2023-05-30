@@ -2,6 +2,7 @@ package br.com.gubee.interview.core.features.hero;
 
 import br.com.gubee.interview.model.Hero;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -60,10 +61,15 @@ public class HeroRepository {
     private static final String FINDBYID_HERO_QUERY = "SELECT * FROM hero WHERE id=:t";
 
     public Object findById(UUID id) {
-        return namedParameterJdbcTemplate.queryForObject(
-                FINDBYID_HERO_QUERY,
-                Map.of("t", id),
-                new BeanPropertyRowMapper(Hero.class));
+        try {
+            return namedParameterJdbcTemplate.query(
+                    FINDBYID_HERO_QUERY,
+                    Map.of("t", id),
+                    new BeanPropertyRowMapper(Hero.class));
+        } catch (EmptyResultDataAccessException e){
+            return null;
+        }
+
     }
 
 
@@ -71,7 +77,7 @@ public class HeroRepository {
     private static final String FINDBYNAME_HERO_QUERY = "SELECT * FROM hero WHERE name=:t";
 
     public Object findByName(String name) {
-        return namedParameterJdbcTemplate.queryForObject(
+        return namedParameterJdbcTemplate.query(
                 FINDBYNAME_HERO_QUERY,
                 Map.of("t", name),
                 new BeanPropertyRowMapper(Hero.class));
