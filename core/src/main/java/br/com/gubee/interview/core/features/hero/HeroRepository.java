@@ -2,7 +2,6 @@ package br.com.gubee.interview.core.features.hero;
 
 import br.com.gubee.interview.model.Hero;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -79,6 +78,23 @@ public class HeroRepository {
                 new BeanPropertyRowMapper(Hero.class));
     }
 
+
+    private static final String COMPARE_HERO_QUERY = "SELECT h.name, p.strength, p.agility, p.dexterity, p.intelligence " +
+            "FROM power_stats as p, hero as h WHERE p.id = h.power_stats_id AND h.id = :id";
+    public List<Map<String, Object>> compare(UUID id) {
+        return namedParameterJdbcTemplate.queryForList(
+                COMPARE_HERO_QUERY,
+                Map.of("id", id));
+    }
+
+    private static final String TEST_HERO_QUERY = "SELECT h.name, p.strength, p.agility, p.dexterity, p.intelligence " +
+            "FROM power_stats as p, hero as h WHERE p.id = h.power_stats_id AND h.id = :id";
+    public Hero test(UUID id) {
+        return namedParameterJdbcTemplate.queryForObject(
+                TEST_HERO_QUERY,
+                Map.of("id", id),
+                Hero.class);
+    }
 
 
 }

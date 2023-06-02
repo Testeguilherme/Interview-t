@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -21,5 +22,9 @@ public class PowerStatsService {
     @Transactional
     public UUID update(PowerStats powerStats, UUID id){
         return powerStatsRepository.update(powerStats, id);
+    }
+
+    public PowerStats compare(UUID id){
+        return powerStatsRepository.compare(id);
     }
 }

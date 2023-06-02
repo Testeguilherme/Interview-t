@@ -5,14 +5,12 @@ import br.com.gubee.interview.model.Hero;
 import br.com.gubee.interview.model.PowerStats;
 import br.com.gubee.interview.model.request.CreateHeroRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -63,6 +61,13 @@ public class HeroService {
         return heroRepository.findByName(name);
     }
 
+    public List<Map<String, Object>> compare(UUID id){
+        return heroRepository.compare(id);
+    }
+
+    public Hero test(UUID id){
+        return heroRepository.test(id);
+    }
 
 }
 

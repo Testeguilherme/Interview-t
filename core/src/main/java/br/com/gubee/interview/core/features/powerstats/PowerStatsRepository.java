@@ -2,10 +2,12 @@ package br.com.gubee.interview.core.features.powerstats;
 
 import br.com.gubee.interview.model.PowerStats;
 import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -35,6 +37,22 @@ public class PowerStatsRepository {
                 Map.of("id", id),
                 UUID.class);
     }
+
+
+
+    private static final String COMPARE_POWER_STATS_QUERY = "SELECT p.strength, p.agility, p.dexterity, p.intelligence " +
+            "FROM power_stats as p WHERE p.id = :id";
+
+    public PowerStats compare(UUID id){
+        return namedParameterJdbcTemplate.queryForObject(
+                COMPARE_POWER_STATS_QUERY,
+                Map.of("id", id),
+                PowerStats.class);
+    }
+
+
+
+
 }
 
 
